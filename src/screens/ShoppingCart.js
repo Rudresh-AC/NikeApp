@@ -1,32 +1,41 @@
 import { FlatList, StyleSheet, View, Text, Pressable } from "react-native";
-import cart from "../data/cart";
 import CartListItem from "../components/CartListItem";
 import { useSelector } from "react-redux";
 import {
   selectSubtotal,
   selectDeliverPrice,
   selectTotal,
+  selectNumberOfItems,
 } from "../store/cartSlice";
 
 const ShoppingCartTotals = () => {
   const subtotal = useSelector(selectSubtotal);
   const deliveryFee = useSelector(selectDeliverPrice);
   const total = useSelector(selectTotal);
+  const count = useSelector(selectNumberOfItems);
 
   return (
-    <View style={styles.totalsContainer}>
-      <View style={styles.row}>
-        <Text style={styles.text}>Subtotal</Text>
-        <Text style={styles.text}>{subtotal} US$</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.text}>Delivery</Text>
-        <Text style={styles.text}>{deliveryFee} US$</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.textBold}>Total</Text>
-        <Text style={styles.textBold}>{total} US$</Text>
-      </View>
+    <View>
+      {count === 0 ? (
+        <View style={styles.noItem}>
+          <Text style={styles.noItemText}>No product inside the cart</Text>
+        </View>
+      ) : (
+        <View style={styles.totalsContainer}>
+          <View style={styles.row}>
+            <Text style={styles.text}>Subtotal</Text>
+            <Text style={styles.text}>{subtotal} US$</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.text}>Delivery</Text>
+            <Text style={styles.text}>{deliveryFee} US$</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.textBold}>Total</Text>
+            <Text style={styles.textBold}>{total} US$</Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -51,6 +60,16 @@ const ShoppingCart = () => {
 };
 
 const styles = StyleSheet.create({
+  noItem: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+  },
+  noItemText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
   totalsContainer: {
     margin: 20,
     paddingTop: 10,
@@ -79,7 +98,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     padding: 20,
   },
-
   button: {
     width: "100%",
     backgroundColor: "black",

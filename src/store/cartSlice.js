@@ -16,6 +16,8 @@ export const cartSlice = createSlice({
         (item) => item.product.id === newProduct.id
       );
 
+      console.log("cartItem=", cartItem);
+
       if (cartItem) {
         cartItem.quantity += 1;
       } else {
